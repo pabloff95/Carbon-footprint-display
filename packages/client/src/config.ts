@@ -1,4 +1,4 @@
-import { getApiUrl } from '~/utils';
+import { getApiUrl } from './utils';
 
 export const API_URL = getApiUrl();
 

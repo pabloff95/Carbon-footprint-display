@@ -4,15 +4,11 @@
   "author": "Cozero",
   "main": "src/main.ts",
   "scripts": {
-    "generate:version": "cd ../.. && yarn generate:version",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "prestart": "yarn generate:version",
     "start": "nest start",
-    "prestart:dev": "yarn generate:version",
     "start:dev": "nest start --watch",
-    "prestart:debug": "yarn generate:version",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
@@ -20,7 +16,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:migrate": "prisma migrate dev"
   },
   "dependencies": {
     "@cozero/lib": "^1.0.0",

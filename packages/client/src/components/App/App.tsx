@@ -1,42 +1,38 @@
-import React, { FC, useEffect, useState } from 'react'
-
-import { API_URL } from '~/config'
-import { Logger, checkServerVersion } from '~/utils'
+import React, { FC, useEffect, useState } from 'react';
+import { getApiUrl } from '../../utils';
+import { CompanyEmissionsFilterForm } from '../Home/CompanyEmissionsFilterForm';
 
 export const App: FC<unknown> = () => {
-  const [response, setResponse] = useState<string>('NO SERVER RESPONSE')
-
-  // useEffect(() => {
-  //   async function fetchResponse(): Promise<void> {
-  //     try {
-  //       const res = await fetch(API_URL);
-  //       const data = await res.text();
-  //       setResponse(data);
-  //     } catch (err) {
-  //       Logger.error(err);
-  //     }
-  //   }
-
-  //   fetchResponse();
-  // }, []);
+  const [isBackendAlive, setIsBackendAlive] = useState(false);
+  const [isBackendAliveLoaded, setIsBackendAliveLoaded] = useState(false);
 
   useEffect(() => {
-    checkServerVersion()
-  }, [])
+    if (isBackendAliveLoaded) {
+      return;
+    }
+
+    const loadIsAlive = async (): Promise<void> => {
+      const isAliveResponse = await fetch(`${getApiUrl()}/ping`);
+
+      setIsBackendAliveLoaded(true);
+      setIsBackendAlive((await isAliveResponse.text()) === 'pong!');
+    };
+
+    loadIsAlive();
+  }, [
+    isBackendAlive,
+    isBackendAliveLoaded,
+    setIsBackendAliveLoaded,
+    setIsBackendAlive,
+  ]);
+
+  if (!isBackendAliveLoaded) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      <div>
-        Here we use a <code>Dictionary&lt;number&gt;</code> interface from the{' '}
-        <code>@cozero/domain</code> package:
-        <pre>{`JSON.stringify(dictExample)`}</pre>
-      </div>
-      <div>
-        And here we get a response from the API:
-        <br />
-        <br />
-        {response}
-      </div>
-    </>
-  )
-}
+    <div>
+      <CompanyEmissionsFilterForm />
+    </div>
+  );
+};

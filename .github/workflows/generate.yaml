@@ -1,0 +1,55 @@
+name: Create and set up repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'Username'
+        required: true
+
+jobs:
+  create_repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.GH_TOKEN}}
+          fetch-depth: 0 # Otherwise branch history is not fetched, which will make the pushes fail
+          fetch-tags: true
+
+      - name: Setup GitHub CLI
+        run: echo "${{ secrets.GH_TOKEN }}" | gh auth login --with-token
+
+      - name: Create new repository
+        run: |
+          gh repo create cozero-blue-challenges/reports-challenge-${{ github.event.inputs.username }} \
+            --private \
+            --source=. \
+            --remote=clone
+          git push clone main
+          git checkout feature/emissions-table
+          git push clone feature/emissions-table
+          git checkout main
+
+      - name: Create Issue
+        run: |
+          gh issue create \
+          --title "Emissions Report" \
+          --repo cozero-blue-challenges/reports-challenge-${{ github.event.inputs.username }} \
+          --body "$(cat .templates/issue.md)"
+
+      - name: Create Pull request
+        run: |
+          gh pr create \
+          --base main \
+          --head feature/emissions-table \
+          --title "Emissions Table" \
+          --repo cozero-blue-challenges/reports-challenge-${{ github.event.inputs.username }} \
+          --body "$(cat .templates/pr.md)"
+
+      - name: Invite user as a contributor
+        run: |
+          gh api \
+            --method=PUT "repos/cozero-blue-challenges/reports-challenge-${{ github.event.inputs.username }}/collaborators/${{ github.event.inputs.username }}" \
+            -f permission=write

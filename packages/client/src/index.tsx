@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { APP_ROOT } from '~/config';
-import { App } from '~/components/App';
+import { APP_ROOT } from './config';
+import { App } from './components/App';
 
-import './index.css';
+import './index.less';
 
 const container = document.getElementById(APP_ROOT);
 const root = createRoot(container!);
