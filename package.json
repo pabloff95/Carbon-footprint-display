@@ -1,0 +1,28 @@
+{
+  "name": "cozero",
+  "version": "1.0.0",
+  "author": "Cozero",
+  "directories": {
+    "doc": "docs"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "references": [
+    {
+      "path": "packages/lib"
+    }
+  ],
+  "scripts": {
+    "bootstrap": "yarn install && yarn run build:common",
+    "generate:version": "./scripts/generate_version.sh",
+    "start:lib": "yarn workspace @cozero/lib start:dev",
+    "start:common": "(yarn start:lib)",
+    "build:lib": "yarn workspace @cozero/lib build",
+    "build:common": "yarn build:lib",
+    "build-push:server": "PACKAGE=server ./scripts/build_and_push.sh",
+    "build-push:client": "PACKAGE=client ./scripts/build_and_push.sh",
+    "lint": "yarn workspaces run lint"
+  }
+}
