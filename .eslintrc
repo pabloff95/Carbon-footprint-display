@@ -36,6 +36,7 @@
       {
         "allow": [
           "warn",
+          "error",
           "dir",
           "timeLog",
           "assert",

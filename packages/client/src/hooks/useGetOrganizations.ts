@@ -19,10 +19,16 @@ const useGetOrganizations: () => UseOrganizationsResult = () => {
       setAreOrganizationsLoading(true);
 
       await fetch(`${getApiUrl()}/organizations`)
-        .then(response => response.json())
+        .then(async response => {
+          if (!response.ok) {
+            throw new Error('Error while fetching the organization names!');
+          }
+
+          return response.json();
+        })
         .then(organizationsList => setorganizations(organizationsList))
         .catch(error => {
-          console.error(error);
+          console.error(error.message);
           setorganizations([]);
         })
         .finally(() => setAreOrganizationsLoading(false));

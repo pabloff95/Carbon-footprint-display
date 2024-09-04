@@ -10,16 +10,18 @@ export class OrganizationService {
   }
 
   async getUniqueOrganizationNames(): Promise<string[]> {
-    const uniqueOrganizationNames = await this.prisma.$queryRaw<
-      Array<{ organization_name: string }>
-    >`
-    SELECT DISTINCT organization_name
-    FROM metrics
-    WHERE organization_name IS NOT NULL AND organization_name != ''    
-  `;
+    try {
+      const uniqueOrganizationNames: { name: string }[] = await this.prisma
+        .$queryRaw`
+      SELECT DISTINCT organization_name AS name
+      FROM metrics
+      WHERE organization_name IS NOT NULL AND organization_name != ''
+    `;
 
-    return uniqueOrganizationNames.map(
-      organization => organization.organization_name
-    );
+      return uniqueOrganizationNames.map(organization => organization.name);
+    } catch (error) {
+      console.error('Error while fetching the organization names:', error);
+      throw error;
+    }
   }
 }

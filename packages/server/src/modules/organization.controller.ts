@@ -6,7 +6,7 @@ export class OrganizationsController {
   constructor(private organizationService: OrganizationService) {}
 
   @Get('/')
-  async organizations(): Promise<any> {
+  async organizations(): Promise<string[]> {
     return this.organizationService.getUniqueOrganizationNames();
   }
 }
