@@ -13,14 +13,33 @@ export class OrganizationService {
     try {
       const uniqueOrganizationNames: { name: string }[] = await this.prisma
         .$queryRaw`
-      SELECT DISTINCT organization_name AS name
-      FROM metrics
-      WHERE organization_name IS NOT NULL AND organization_name != ''
-    `;
+          SELECT DISTINCT organization_name AS name
+          FROM metrics
+          WHERE organization_name IS NOT NULL AND organization_name != ''
+        `;
 
       return uniqueOrganizationNames.map(organization => organization.name);
     } catch (error) {
       console.error('Error while fetching the organization names:', error);
+      throw error;
+    }
+  }
+
+  async getOrganizationEmissions(
+    organizationName: string
+  ): Promise<{ date: Date; emissions: number }[]> {
+    try {
+      // TODO: speed up performance, remove limit 10
+      const organizationEmissions: { date: Date; emissions: number }[] =
+        await this.prisma.$queryRaw`
+          SELECT reported_at as date, emissions
+          FROM metrics
+          WHERE organization_name = ${organizationName} LIMIT 10
+        `;
+
+      return organizationEmissions;
+    } catch (error) {
+      console.error('Error while fetching the organization emissions:', error);
       throw error;
     }
   }

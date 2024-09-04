@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import useGetOrganizations, {
   UseOrganizationsResult,
 } from '../../hooks/useGetOrganizations';
 
-export const OrganizationEmissionsFilter: React.FC = () => {
+interface OrganizationEmissionsChartProps {
+  setSelectedOrganization: Dispatch<SetStateAction<string>>;
+}
+
+export const OrganizationEmissionsFilter: React.FC<
+  OrganizationEmissionsChartProps
+> = ({ setSelectedOrganization }) => {
   const { organizations, areOrganizationsLoading }: UseOrganizationsResult =
     useGetOrganizations();
+
+  const handleOrganizationChange: (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => void = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOrganization = event?.target?.value;
+
+    if (selectedOrganization) {
+      setSelectedOrganization(selectedOrganization);
+    }
+  };
 
   if (areOrganizationsLoading) {
     return <p>Loading...</p>;
@@ -16,7 +32,11 @@ export const OrganizationEmissionsFilter: React.FC = () => {
   }
 
   return (
-    <select name="company" defaultValue={'DEFAULT'}>
+    <select
+      name="company"
+      defaultValue={'DEFAULT'}
+      onChange={handleOrganizationChange}
+    >
       <option value="DEFAULT" disabled>
         Select an organization...
       </option>

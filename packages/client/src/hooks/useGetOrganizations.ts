@@ -11,7 +11,7 @@ interface UseOrganizationsResult {
  * @returns {UseOrganizationsResult}
  */
 const useGetOrganizations: () => UseOrganizationsResult = () => {
-  const [organizations, setorganizations] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
   const [areOrganizationsLoading, setAreOrganizationsLoading] = useState(false);
 
   useEffect(() => {
@@ -26,10 +26,10 @@ const useGetOrganizations: () => UseOrganizationsResult = () => {
 
           return response.json();
         })
-        .then(organizationsList => setorganizations(organizationsList))
+        .then(organizationsList => setOrganizations(organizationsList))
         .catch(error => {
           console.error(error.message);
-          setorganizations([]);
+          setOrganizations([]);
         })
         .finally(() => setAreOrganizationsLoading(false));
     };
