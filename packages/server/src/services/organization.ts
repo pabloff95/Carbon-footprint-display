@@ -25,19 +25,32 @@ export class OrganizationService {
     }
   }
 
-  async getOrganizationEmissions(
-    organizationName: string
-  ): Promise<{ date: Date; emissions: number }[]> {
+  async getOrganizationMonthlyEmissionsByYear({
+    organizationName,
+    year,
+  }: {
+    organizationName: string;
+    year: number;
+  }): Promise<{
+    year: number;
+    monthsData: { month: number; emissions: number }[];
+  }> {
     try {
-      // TODO: speed up performance, remove limit 10
-      const organizationEmissions: { date: Date; emissions: number }[] =
+      // This query summarizes all the monthly emissions in the received year of the target organization
+      const organizationEmissions: { month: number; emissions: number }[] =
         await this.prisma.$queryRaw`
-          SELECT reported_at as date, emissions
-          FROM metrics
-          WHERE organization_name = ${organizationName} LIMIT 10
-        `;
+        SELECT
+          EXTRACT(MONTH FROM reported_at) AS month,
+          SUM(emissions) AS emissions
+        FROM metrics
+        WHERE organization_name = ${organizationName}
+        AND reported_at BETWEEN ${new Date(`${year}-01-01`)} AND ${new Date(
+          `${year}-12-31`
+        )}
+        GROUP BY EXTRACT(MONTH FROM reported_at)
+      `;
 
-      return organizationEmissions;
+      return { year, monthsData: organizationEmissions };
     } catch (error) {
       console.error('Error while fetching the organization emissions:', error);
       throw error;
