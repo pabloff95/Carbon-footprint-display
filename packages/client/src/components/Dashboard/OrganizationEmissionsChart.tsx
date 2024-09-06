@@ -1,5 +1,7 @@
 import React from 'react';
 import useGetOrganizationEmissions from '../../hooks/useGetOrganizationEmissions';
+import { EmissionsData } from '../../../../lib/src/index';
+import ChartBase, { ChartSeries } from './ChartBase';
 
 interface OrganizationEmissionsChartProps {
   selectedOrganization: string;
@@ -8,10 +10,45 @@ interface OrganizationEmissionsChartProps {
 export const OrganizationEmissionsChart: React.FC<
   OrganizationEmissionsChartProps
 > = ({ selectedOrganization }) => {
-  const { emissions } = useGetOrganizationEmissions(selectedOrganization);
+  const { emissions, areEmissionsLoading } =
+    useGetOrganizationEmissions(selectedOrganization);
 
-  console.log({ emissions });
+  const getYearSeries: (
+    emissions: EmissionsData[]
+  ) => ChartSeries = emissionsData => {
+    const emissionsPerYear = emissionsData.map(({ year, monthsData }) => ({
+      year,
+      totalEmissions: monthsData.reduce(
+        (totalEmissions: number, month: { emissions: number }) =>
+          totalEmissions + month.emissions,
+        0
+      ),
+    }));
 
-  // TODO: complete component implementation
-  return <div>{selectedOrganization}</div>;
+    return {
+      categories: emissionsPerYear.map(({ year }) => year.toString()),
+      ySeries: emissionsPerYear.map(({ totalEmissions }) => totalEmissions),
+    };
+  };
+
+  if (areEmissionsLoading) {
+    return <p>The emissions data is loading...</p>;
+  }
+
+  if (emissions.length === 0) {
+    return <p>Please select an organization with emission records!</p>;
+  }
+
+  const yearSeries = getYearSeries(emissions);
+
+  return (
+    <ChartBase
+      series={yearSeries}
+      title={`${selectedOrganization} yearly emissions`}
+      xAxisTitle="Year"
+      yAxisTitle="Emissions"
+      yUnits="tCO₂e"
+      hideLegend
+    />
+  );
 };

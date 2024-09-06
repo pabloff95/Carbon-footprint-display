@@ -1,5 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { OrganizationService } from '../services/organization';
+import { EmissionsData } from '../../../lib/src/index';
 
 @Controller('organizations')
 export class OrganizationsController {
@@ -13,12 +14,7 @@ export class OrganizationsController {
   @Get('/emissions/:organizationName')
   async getOrganizationEmissions(
     @Param('organizationName') organizationName: string
-  ): Promise<
-    {
-      year: number;
-      monthsData: { month: number; emissions: number }[];
-    }[]
-  > {
+  ): Promise<EmissionsData[]> {
     // This endpoint paralelizes the emission queries by each year, startin on the year 2000 (earliest year in the DB)
     const years = [];
     for (let i = 2000; i <= new Date().getFullYear(); i++) {

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getApiUrl } from '../utils';
+import { EmissionsData } from '../../../lib/src/index';
 
 interface UseOrganizationsEmisionsResult {
-  emissions: { date: Date; emissions: number }[];
+  emissions: EmissionsData[];
   areEmissionsLoading: boolean;
 }
 
@@ -13,9 +14,7 @@ interface UseOrganizationsEmisionsResult {
 const useGetOrganizationEmissions: (
   organization: string
 ) => UseOrganizationsEmisionsResult = (organizationName: string) => {
-  const [emissions, setEmisions] = useState<
-    { date: Date; emissions: number }[]
-  >([]);
+  const [emissions, setEmisions] = useState<EmissionsData[]>([]);
   const [areEmissionsLoading, setAreEmissionsLoading] = useState(false);
 
   useEffect(() => {
@@ -34,9 +33,7 @@ const useGetOrganizationEmissions: (
 
           return response.json();
         })
-        .then((emissionsList: { date: Date; emissions: number }[]) =>
-          setEmisions(emissionsList)
-        )
+        .then((emissionsList: EmissionsData[]) => setEmisions(emissionsList))
         .catch(error => {
           console.error(error.message);
           setEmisions([]);

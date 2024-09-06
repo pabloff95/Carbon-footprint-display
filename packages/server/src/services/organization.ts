@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { EmissionsData } from '../../../lib/src/index';
 
 @Injectable()
 export class OrganizationService {
@@ -31,10 +32,7 @@ export class OrganizationService {
   }: {
     organizationName: string;
     year: number;
-  }): Promise<{
-    year: number;
-    monthsData: { month: number; emissions: number }[];
-  }> {
+  }): Promise<EmissionsData> {
     try {
       // This query summarizes all the monthly emissions in the received year of the target organization
       const organizationEmissions: { month: number; emissions: number }[] =
