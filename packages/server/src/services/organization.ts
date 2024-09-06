@@ -10,7 +10,7 @@ export class OrganizationService {
     this.prisma = new PrismaClient();
   }
 
-  async getUniqueOrganizationNames(): Promise<string[]> {
+  getUniqueOrganizationNames = async (): Promise<string[]> => {
     try {
       const uniqueOrganizationNames: { name: string }[] = await this.prisma
         .$queryRaw`
@@ -24,15 +24,15 @@ export class OrganizationService {
       console.error('Error while fetching the organization names:', error);
       throw error;
     }
-  }
+  };
 
-  async getOrganizationMonthlyEmissionsByYear({
+  getOrganizationMonthlyEmissionsByYear = async ({
     organizationName,
     year,
   }: {
     organizationName: string;
     year: number;
-  }): Promise<EmissionsData> {
+  }): Promise<EmissionsData> => {
     try {
       // This query summarizes all the monthly emissions in the received year of the target organization
       const organizationEmissions: { month: number; emissions: number }[] =
@@ -53,5 +53,5 @@ export class OrganizationService {
       console.error('Error while fetching the organization emissions:', error);
       throw error;
     }
-  }
+  };
 }

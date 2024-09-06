@@ -3,6 +3,7 @@ import useGetOrganizationEmissions from '../../hooks/useGetOrganizationEmissions
 import { EmissionsData } from '../../../../lib/src/index';
 import ChartBase, { ChartSeries } from './ChartBase';
 import { timeResolution } from './TimeResolutionFilter';
+import { MonthEmissionsChart } from './MonthEmissionsChart';
 
 interface OrganizationEmissionsChartProps {
   selectedOrganization: string;
@@ -15,9 +16,7 @@ export const OrganizationEmissionsChart: React.FC<
   const { emissions, areEmissionsLoading } =
     useGetOrganizationEmissions(selectedOrganization);
 
-  const getYearSeries: (
-    emissions: EmissionsData[]
-  ) => ChartSeries = emissionsData => {
+  const getYearSeries = (emissionsData: EmissionsData[]): ChartSeries => {
     const emissionsPerYear = emissionsData.map(({ year, monthsData }) => ({
       year,
       totalEmissions: monthsData.reduce(
@@ -41,20 +40,27 @@ export const OrganizationEmissionsChart: React.FC<
     return <p>Please select an organization with emission records!</p>;
   }
 
-  const yearSeries = getYearSeries(emissions);
+  if (selectedTimeResolution === timeResolution.year) {
+    return (
+      <ChartBase
+        series={getYearSeries(emissions)}
+        title={`${selectedOrganization} yearly emissions`}
+        xAxisTitle="Year"
+        yAxisTitle="Emissions"
+        yUnits="tCO₂e"
+        hideLegend
+      />
+    );
+  }
 
-  return (
-    <>
-      {selectedTimeResolution === timeResolution.year && (
-        <ChartBase
-          series={yearSeries}
-          title={`${selectedOrganization} yearly emissions`}
-          xAxisTitle="Year"
-          yAxisTitle="Emissions"
-          yUnits="tCO₂e"
-          hideLegend
-        />
-      )}
-    </>
-  );
+  if (selectedTimeResolution === timeResolution.month) {
+    return (
+      <MonthEmissionsChart
+        allTimeEmissions={emissions}
+        organizationName={selectedOrganization}
+      />
+    );
+  }
+
+  return <p>Please select a valid time resolution!</p>;
 };

@@ -10,7 +10,7 @@ interface UseOrganizationsResult {
  * This hook is used to get a list of all the distinct organization names saved in the database.
  * @returns {UseOrganizationsResult}
  */
-const useGetOrganizations: () => UseOrganizationsResult = () => {
+const useGetOrganizations = (): UseOrganizationsResult => {
   const [organizations, setOrganizations] = useState([]);
   const [areOrganizationsLoading, setAreOrganizationsLoading] = useState(false);
 

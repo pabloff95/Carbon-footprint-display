@@ -9,9 +9,7 @@ export const Dashboard: React.FC = () => {
     timeResolution.year
   );
 
-  const handleSelectTimeResolution: (resolution: string) => void = (
-    resolution: string
-  ) => {
+  const handleSelectTimeResolution = (resolution: string): void => {
     setSelectedTimeResolution(resolution);
   };
 

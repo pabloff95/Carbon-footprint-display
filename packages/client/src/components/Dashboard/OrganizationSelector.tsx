@@ -13,9 +13,9 @@ export const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
   const { organizations, areOrganizationsLoading }: UseOrganizationsResult =
     useGetOrganizations();
 
-  const handleOrganizationChange: (
+  const handleOrganizationChange = (
     event: React.ChangeEvent<HTMLSelectElement>
-  ) => void = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  ): void => {
     const selectedOrganization = event?.target?.value;
 
     if (selectedOrganization) {

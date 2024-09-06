@@ -11,9 +11,9 @@ interface UseOrganizationsEmisionsResult {
  * This hook is used to get the complete list of emissions of an organization.
  * @returns {UseOrganizationsResult}
  */
-const useGetOrganizationEmissions: (
-  organization: string
-) => UseOrganizationsEmisionsResult = (organizationName: string) => {
+const useGetOrganizationEmissions = (
+  organizationName: string
+): UseOrganizationsEmisionsResult => {
   const [emissions, setEmisions] = useState<EmissionsData[]>([]);
   const [areEmissionsLoading, setAreEmissionsLoading] = useState(false);
 
