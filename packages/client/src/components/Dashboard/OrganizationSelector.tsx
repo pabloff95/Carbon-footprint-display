@@ -3,13 +3,13 @@ import useGetOrganizations, {
   UseOrganizationsResult,
 } from '../../hooks/useGetOrganizations';
 
-interface OrganizationEmissionsChartProps {
+interface OrganizationSelectorProps {
   setSelectedOrganization: Dispatch<SetStateAction<string>>;
 }
 
-export const OrganizationEmissionsFilter: React.FC<
-  OrganizationEmissionsChartProps
-> = ({ setSelectedOrganization }) => {
+export const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
+  setSelectedOrganization,
+}) => {
   const { organizations, areOrganizationsLoading }: UseOrganizationsResult =
     useGetOrganizations();
 

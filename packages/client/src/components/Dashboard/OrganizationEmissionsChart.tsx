@@ -2,14 +2,16 @@ import React from 'react';
 import useGetOrganizationEmissions from '../../hooks/useGetOrganizationEmissions';
 import { EmissionsData } from '../../../../lib/src/index';
 import ChartBase, { ChartSeries } from './ChartBase';
+import { timeResolution } from './TimeResolutionFilter';
 
 interface OrganizationEmissionsChartProps {
   selectedOrganization: string;
+  selectedTimeResolution: string;
 }
 
 export const OrganizationEmissionsChart: React.FC<
   OrganizationEmissionsChartProps
-> = ({ selectedOrganization }) => {
+> = ({ selectedOrganization, selectedTimeResolution }) => {
   const { emissions, areEmissionsLoading } =
     useGetOrganizationEmissions(selectedOrganization);
 
@@ -42,13 +44,17 @@ export const OrganizationEmissionsChart: React.FC<
   const yearSeries = getYearSeries(emissions);
 
   return (
-    <ChartBase
-      series={yearSeries}
-      title={`${selectedOrganization} yearly emissions`}
-      xAxisTitle="Year"
-      yAxisTitle="Emissions"
-      yUnits="tCO₂e"
-      hideLegend
-    />
+    <>
+      {selectedTimeResolution === timeResolution.year && (
+        <ChartBase
+          series={yearSeries}
+          title={`${selectedOrganization} yearly emissions`}
+          xAxisTitle="Year"
+          yAxisTitle="Emissions"
+          yUnits="tCO₂e"
+          hideLegend
+        />
+      )}
+    </>
   );
 };
