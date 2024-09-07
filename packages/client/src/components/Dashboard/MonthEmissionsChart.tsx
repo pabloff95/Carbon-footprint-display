@@ -39,13 +39,21 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
       };
     }
 
+    const ySeries = Object.keys(months).map(monthAsNumber => {
+      const monthData = targetYearData.monthsData.find(
+        ({ month }) => month.toString() === monthAsNumber
+      );
+
+      return monthData?.emissions || 0;
+    });
+
     return {
-      categories: targetYearData.monthsData.map(
-        ({ month }) => months[month - 1] // -1 because January starts with 1, not 0
-      ),
-      ySeries: targetYearData.monthsData.map(({ emissions }) => emissions),
+      categories: Object.values(months),
+      ySeries,
     };
   };
+
+  const monthSeries = getYearMonthlySeries();
 
   return (
     <>
@@ -59,14 +67,20 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
         </button>
       </section>
       <section>
-        <ChartBase
-          series={getYearMonthlySeries()}
-          title={`${organizationName} yearly emissions`}
-          xAxisTitle="Month"
-          yAxisTitle="Emissions"
-          yUnits="tCO₂e"
-          hideLegend
-        />
+        {monthSeries.categories.length > 0 && (
+          <ChartBase
+            series={monthSeries}
+            title={`${organizationName} yearly emissions`}
+            xAxisTitle="Month"
+            yAxisTitle="Emissions"
+            yUnits="tCO₂e"
+            dataLabelDecimals={2}
+            hideLegend
+          />
+        )}
+        {monthSeries.categories.length === 0 && (
+          <p>No data was found for the selected year</p>
+        )}
       </section>
     </>
   );

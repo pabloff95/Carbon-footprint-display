@@ -48,6 +48,7 @@ export const OrganizationEmissionsChart: React.FC<
         xAxisTitle="Year"
         yAxisTitle="Emissions"
         yUnits="tCO₂e"
+        dataLabelDecimals={1}
         hideLegend
       />
     );

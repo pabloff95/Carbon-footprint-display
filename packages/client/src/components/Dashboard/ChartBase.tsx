@@ -13,6 +13,7 @@ interface BaseChartProps {
   xAxisTitle: string;
   yAxisTitle: string;
   yUnits: string;
+  dataLabelDecimals: number;
   type?: string;
   hideLegend?: boolean;
 }
@@ -23,6 +24,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
   xAxisTitle,
   yAxisTitle,
   yUnits,
+  dataLabelDecimals,
   type = 'line',
   hideLegend = false,
 }) => {
@@ -52,7 +54,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
         type: 'line',
         dataLabels: {
           enabled: true,
-          format: '{point.y:.1f}', // Round datalabels to 1 decimal
+          format: `{point.y:.${dataLabelDecimals}f}`,
         },
       },
     ],

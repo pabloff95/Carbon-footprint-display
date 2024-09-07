@@ -33,7 +33,12 @@ const useGetOrganizationEmissions = (
 
           return response.json();
         })
-        .then((emissionsList: EmissionsData[]) => setEmisions(emissionsList))
+        .then((emissionsList: EmissionsData[]) => {
+          const filteredEmissionsList = emissionsList.filter(
+            ({ monthsData }) => monthsData.length > 0 // Remove years with no data
+          );
+          setEmisions(filteredEmissionsList);
+        })
         .catch(error => {
           console.error(error.message);
           setEmisions([]);
