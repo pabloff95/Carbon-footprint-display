@@ -5,6 +5,7 @@ import Chart, { ChartSeries } from '../Base/Chart';
 import { timeResolution } from './TimeResolutionFilter';
 import { MonthEmissionsChart } from './MonthEmissionsChart';
 import { LoadingSpinner } from '../Base/LoadingSpinner';
+import { Alert } from 'antd';
 
 interface OrganizationEmissionsChartProps {
   selectedOrganization: string;
@@ -38,7 +39,12 @@ export const OrganizationEmissionsChart: React.FC<
   }
 
   if (emissions.length === 0) {
-    return <p>Please select an organization with emission records!</p>;
+    return (
+      <Alert
+        message="Please select an organization with emission records!"
+        type="info"
+      />
+    );
   }
 
   if (selectedTimeResolution === timeResolution.year) {
@@ -64,5 +70,7 @@ export const OrganizationEmissionsChart: React.FC<
     );
   }
 
-  return <p>Please select a valid time resolution!</p>;
+  return (
+    <Alert message="Please select a valid time resolution!" type="warning" />
+  );
 };

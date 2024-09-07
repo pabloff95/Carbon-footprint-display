@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { OrganizationSelector } from './OrganizationSelector';
 import { OrganizationEmissionsChart } from './OrganizationEmissionsChart';
 import { TimeResolutionFilter, timeResolution } from './TimeResolutionFilter';
+import { Typography } from 'antd';
 
 export const Dashboard: React.FC = () => {
   const [selectedOrganization, setSelectedOrganization] = useState('');
@@ -16,13 +17,16 @@ export const Dashboard: React.FC = () => {
   return (
     <>
       <header>
-        <h1>Emissions dashboard</h1>
+        <Typography.Title level={2}>Emissions dashboard</Typography.Title>
       </header>
       <main>
         <OrganizationSelector
           setSelectedOrganization={setSelectedOrganization}
         />
-        <TimeResolutionFilter selectResolution={handleSelectTimeResolution} />
+        <TimeResolutionFilter
+          selectResolution={handleSelectTimeResolution}
+          selectedTimeResolution={selectedTimeResolution}
+        />
         <OrganizationEmissionsChart
           selectedOrganization={selectedOrganization}
           selectedTimeResolution={selectedTimeResolution}

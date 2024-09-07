@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { EmissionsData } from '../../../../lib/src/index';
+import { EmissionsData, baseYear } from '../../../../lib/src/index';
 import Chart, { ChartSeries } from '../Base/Chart';
 import { months } from '../../../../client/src/utils/index';
+import { Alert, Button } from 'antd';
 
 interface MonthEmissionsChartProps {
   allTimeEmissions: EmissionsData[];
@@ -13,10 +14,11 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
   organizationName,
 }) => {
   const maxYear: number = Math.max(...allTimeEmissions.map(({ year }) => year));
+
   const [selectedYear, setSelectedYear] = useState(maxYear);
 
   const reduceYear = (): void => {
-    if (selectedYear !== 2000) {
+    if (selectedYear !== baseYear) {
       setSelectedYear(selectedYear - 1);
     }
   };
@@ -57,20 +59,31 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
 
   return (
     <>
-      <section>
-        <button type="button" onClick={reduceYear}>
-          -
-        </button>
+      <section className="flex gap-2">
+        <Button
+          type="default"
+          className=""
+          onClick={reduceYear}
+          size="small"
+          disabled={selectedYear === baseYear}
+        >
+          <b>-</b>
+        </Button>
         {selectedYear}
-        <button type="button" onClick={increaseYear}>
-          +
-        </button>
+        <Button
+          type="default"
+          onClick={increaseYear}
+          size="small"
+          disabled={selectedYear === maxYear}
+        >
+          <b>+</b>
+        </Button>
       </section>
       <section>
         {monthSeries.categories.length > 0 && (
           <Chart
             series={monthSeries}
-            title={`${organizationName} yearly emissions`}
+            title={`${organizationName} monthly emissions in ${selectedYear}`}
             xAxisTitle="Month"
             yAxisTitle="Emissions"
             yUnits="tCO₂e"
@@ -79,7 +92,10 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
           />
         )}
         {monthSeries.categories.length === 0 && (
-          <p>No data was found for the selected year</p>
+          <Alert
+            message="No data was found for the selected year!"
+            type="info"
+          />
         )}
       </section>
     </>

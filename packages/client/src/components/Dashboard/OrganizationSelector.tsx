@@ -3,6 +3,7 @@ import useGetOrganizations, {
   UseOrganizationsResult,
 } from '../../hooks/useGetOrganizations';
 import { LoadingSpinner } from '../Base/LoadingSpinner';
+import { Alert, Select } from 'antd';
 
 interface OrganizationSelectorProps {
   setSelectedOrganization: Dispatch<SetStateAction<string>>;
@@ -14,11 +15,7 @@ export const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
   const { organizations, areOrganizationsLoading }: UseOrganizationsResult =
     useGetOrganizations();
 
-  const handleOrganizationChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ): void => {
-    const selectedOrganization = event?.target?.value;
-
+  const handleOrganizationChange = (selectedOrganization: string): void => {
     if (selectedOrganization) {
       setSelectedOrganization(selectedOrganization);
     }
@@ -29,23 +26,25 @@ export const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
   }
 
   if (!organizations || organizations.length === 0) {
-    return <p>No organizations were found!</p>;
+    return <Alert message="No organizations were found!" type="warning" />;
   }
 
   return (
-    <select
-      name="company"
-      defaultValue={'DEFAULT'}
+    <Select
+      defaultValue="default"
+      style={{ width: 225 }}
       onChange={handleOrganizationChange}
-    >
-      <option value="DEFAULT" disabled>
-        Select an organization...
-      </option>
-      {organizations.map((organization, index) => (
-        <option key={`${index}-organization-option`} value={organization}>
-          {organization}
-        </option>
-      ))}
-    </select>
+      options={[
+        {
+          value: 'default',
+          label: 'Select an organization...',
+          disabled: true,
+        },
+        ...organizations.map(organization => ({
+          value: organization,
+          label: organization,
+        })),
+      ]}
+    />
   );
 };
