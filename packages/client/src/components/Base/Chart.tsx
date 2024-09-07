@@ -7,7 +7,7 @@ export type ChartSeries = {
   ySeries: number[];
 };
 
-interface BaseChartProps {
+interface ChartProps {
   series: ChartSeries;
   title: string;
   xAxisTitle: string;
@@ -18,7 +18,7 @@ interface BaseChartProps {
   hideLegend?: boolean;
 }
 
-const BaseChart: React.FC<BaseChartProps> = ({
+const Chart: React.FC<ChartProps> = ({
   series,
   title,
   xAxisTitle,
@@ -79,4 +79,4 @@ const BaseChart: React.FC<BaseChartProps> = ({
   return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
 };
 
-export default BaseChart;
+export default Chart;

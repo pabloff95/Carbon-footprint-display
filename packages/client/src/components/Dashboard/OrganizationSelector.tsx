@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import useGetOrganizations, {
   UseOrganizationsResult,
 } from '../../hooks/useGetOrganizations';
+import { LoadingSpinner } from '../Base/LoadingSpinner';
 
 interface OrganizationSelectorProps {
   setSelectedOrganization: Dispatch<SetStateAction<string>>;
@@ -24,7 +25,7 @@ export const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
   };
 
   if (areOrganizationsLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (!organizations || organizations.length === 0) {

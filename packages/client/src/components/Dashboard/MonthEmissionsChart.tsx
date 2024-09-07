@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { EmissionsData } from '../../../../lib/src/index';
-import ChartBase, { ChartSeries } from './ChartBase';
+import Chart, { ChartSeries } from '../Base/Chart';
 import { months } from '../../../../client/src/utils/index';
 
 interface MonthEmissionsChartProps {
@@ -68,7 +68,7 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
       </section>
       <section>
         {monthSeries.categories.length > 0 && (
-          <ChartBase
+          <Chart
             series={monthSeries}
             title={`${organizationName} yearly emissions`}
             xAxisTitle="Month"

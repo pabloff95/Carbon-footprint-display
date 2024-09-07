@@ -1,9 +1,10 @@
 import React from 'react';
 import useGetOrganizationEmissions from '../../hooks/useGetOrganizationEmissions';
 import { EmissionsData } from '../../../../lib/src/index';
-import ChartBase, { ChartSeries } from './ChartBase';
+import Chart, { ChartSeries } from '../Base/Chart';
 import { timeResolution } from './TimeResolutionFilter';
 import { MonthEmissionsChart } from './MonthEmissionsChart';
+import { LoadingSpinner } from '../Base/LoadingSpinner';
 
 interface OrganizationEmissionsChartProps {
   selectedOrganization: string;
@@ -33,7 +34,7 @@ export const OrganizationEmissionsChart: React.FC<
   };
 
   if (areEmissionsLoading) {
-    return <p>The emissions data is loading...</p>;
+    return <LoadingSpinner spinnerHeight="56" />;
   }
 
   if (emissions.length === 0) {
@@ -42,7 +43,7 @@ export const OrganizationEmissionsChart: React.FC<
 
   if (selectedTimeResolution === timeResolution.year) {
     return (
-      <ChartBase
+      <Chart
         series={getYearSeries(emissions)}
         title={`${selectedOrganization} yearly emissions`}
         xAxisTitle="Year"
