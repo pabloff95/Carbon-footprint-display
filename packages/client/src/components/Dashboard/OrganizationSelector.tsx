@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import useGetOrganizations, {
   UseOrganizationsResult,
 } from '../../hooks/useGetOrganizations';
@@ -7,17 +7,26 @@ import { Alert, Select } from 'antd';
 
 interface OrganizationSelectorProps {
   setSelectedOrganization: Dispatch<SetStateAction<string>>;
+  setIsDataLoading: Dispatch<SetStateAction<boolean>>;
+  selectedOrganization: string;
 }
 
 export const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
   setSelectedOrganization,
+  setIsDataLoading,
+  selectedOrganization,
 }) => {
   const { organizations, areOrganizationsLoading }: UseOrganizationsResult =
     useGetOrganizations();
 
-  const handleOrganizationChange = (selectedOrganization: string): void => {
-    if (selectedOrganization) {
-      setSelectedOrganization(selectedOrganization);
+  useEffect(() => {
+    // Notify Dashboard component of query being in process
+    setIsDataLoading(areOrganizationsLoading);
+  }, [areOrganizationsLoading, setIsDataLoading]);
+
+  const handleOrganizationChange = (organizationName: string): void => {
+    if (organizationName) {
+      setSelectedOrganization(organizationName);
     }
   };
 
@@ -31,7 +40,7 @@ export const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
 
   return (
     <Select
-      defaultValue="default"
+      defaultValue={selectedOrganization || 'default'}
       style={{ width: 225 }}
       onChange={handleOrganizationChange}
       options={[

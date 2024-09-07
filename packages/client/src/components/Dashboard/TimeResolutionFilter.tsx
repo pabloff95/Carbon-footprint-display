@@ -4,6 +4,7 @@ import { Radio } from 'antd';
 interface TimeResolutionFilterProps {
   selectResolution: (resolution: string) => void;
   selectedTimeResolution: string;
+  disableButtons: boolean;
 }
 interface TimeResolution {
   year: string;
@@ -18,6 +19,7 @@ export const timeResolution: TimeResolution = {
 export const TimeResolutionFilter: React.FC<TimeResolutionFilterProps> = ({
   selectResolution,
   selectedTimeResolution,
+  disableButtons,
 }) => {
   return (
     <section>
@@ -25,10 +27,10 @@ export const TimeResolutionFilter: React.FC<TimeResolutionFilterProps> = ({
         value={selectedTimeResolution}
         onChange={e => selectResolution(e.target.value)}
       >
-        <Radio.Button value={timeResolution.year}>
+        <Radio.Button value={timeResolution.year} disabled={disableButtons}>
           {timeResolution.year}
         </Radio.Button>
-        <Radio.Button value={timeResolution.month}>
+        <Radio.Button value={timeResolution.month} disabled={disableButtons}>
           {timeResolution.month}
         </Radio.Button>
       </Radio.Group>

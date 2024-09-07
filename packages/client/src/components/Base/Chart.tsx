@@ -30,9 +30,13 @@ const Chart: React.FC<ChartProps> = ({
 }) => {
   const { categories, ySeries } = series;
 
+  const chartBaseColor = '#000000';
+  const chartBaseLineWidth = 1;
+
   const chartOptions: Highcharts.Options = {
     chart: {
       type,
+      backgroundColor: 'rgb(226 232 240)', // = tailwind .bg-slate-200
     },
     title: {
       text: title,
@@ -42,11 +46,17 @@ const Chart: React.FC<ChartProps> = ({
       title: {
         text: xAxisTitle,
       },
+      lineColor: chartBaseColor,
+      lineWidth: chartBaseLineWidth,
     },
     yAxis: {
       title: {
         text: `${yAxisTitle} (${yUnits})`,
       },
+      lineColor: chartBaseColor,
+      lineWidth: chartBaseLineWidth,
+      gridLineColor: chartBaseColor,
+      gridLineWidth: chartBaseLineWidth / 2,
     },
     series: [
       {

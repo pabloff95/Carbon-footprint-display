@@ -59,10 +59,10 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
 
   return (
     <>
-      <section className="flex gap-2">
+      <section className="w-full flex gap-2 justify-center mb-2">
         <Button
           type="default"
-          className=""
+          className="bg-white"
           onClick={reduceYear}
           size="small"
           disabled={selectedYear === baseYear}
@@ -72,6 +72,7 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
         {selectedYear}
         <Button
           type="default"
+          className="bg-white"
           onClick={increaseYear}
           size="small"
           disabled={selectedYear === maxYear}

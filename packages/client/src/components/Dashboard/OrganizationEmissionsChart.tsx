@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import useGetOrganizationEmissions from '../../hooks/useGetOrganizationEmissions';
 import { EmissionsData } from '../../../../lib/src/index';
 import Chart, { ChartSeries } from '../Base/Chart';
@@ -10,13 +10,19 @@ import { Alert } from 'antd';
 interface OrganizationEmissionsChartProps {
   selectedOrganization: string;
   selectedTimeResolution: string;
+  setIsDataLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const OrganizationEmissionsChart: React.FC<
   OrganizationEmissionsChartProps
-> = ({ selectedOrganization, selectedTimeResolution }) => {
+> = ({ selectedOrganization, selectedTimeResolution, setIsDataLoading }) => {
   const { emissions, areEmissionsLoading } =
     useGetOrganizationEmissions(selectedOrganization);
+
+  useEffect(() => {
+    // Notify Dashboard component of query being in process
+    setIsDataLoading(areEmissionsLoading);
+  }, [areEmissionsLoading, setIsDataLoading]);
 
   const getYearSeries = (emissionsData: EmissionsData[]): ChartSeries => {
     const emissionsPerYear = emissionsData.map(({ year, monthsData }) => ({
@@ -49,24 +55,28 @@ export const OrganizationEmissionsChart: React.FC<
 
   if (selectedTimeResolution === timeResolution.year) {
     return (
-      <Chart
-        series={getYearSeries(emissions)}
-        title={`${selectedOrganization} yearly emissions`}
-        xAxisTitle="Year"
-        yAxisTitle="Emissions"
-        yUnits="tCO₂e"
-        dataLabelDecimals={1}
-        hideLegend
-      />
+      <div className="w-5/6">
+        <Chart
+          series={getYearSeries(emissions)}
+          title={`${selectedOrganization} yearly emissions`}
+          xAxisTitle="Year"
+          yAxisTitle="Emissions"
+          yUnits="tCO₂e"
+          dataLabelDecimals={1}
+          hideLegend
+        />
+      </div>
     );
   }
 
   if (selectedTimeResolution === timeResolution.month) {
     return (
-      <MonthEmissionsChart
-        allTimeEmissions={emissions}
-        organizationName={selectedOrganization}
-      />
+      <div className="w-5/6">
+        <MonthEmissionsChart
+          allTimeEmissions={emissions}
+          organizationName={selectedOrganization}
+        />
+      </div>
     );
   }
 
