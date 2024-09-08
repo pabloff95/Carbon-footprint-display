@@ -1,38 +1,23 @@
 import React, { useState } from 'react';
-import { EmissionsData, baseYear } from '../../../../lib/src/index';
-import Chart, { ChartSeries } from '../Base/Chart';
-import { months } from '../../../../client/src/utils/index';
+import { EmissionsData, baseYear } from '@cozero/lib/src';
+import { ChartBase, ChartSeries } from './ChartBase';
+import { months } from '../../utils/index';
 import { Alert, Button } from 'antd';
 
-interface MonthEmissionsChartProps {
-  allTimeEmissions: EmissionsData[];
-  organizationName: string;
+interface MonthEmissionsByYearChartProps {
+  emissions: EmissionsData[];
+  selectedOrganization: string;
 }
 
-export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
-  allTimeEmissions,
-  organizationName,
-}) => {
-  const maxYear: number = Math.max(...allTimeEmissions.map(({ year }) => year));
+export const MonthEmissionsByYearChart: React.FC<
+  MonthEmissionsByYearChartProps
+> = ({ emissions, selectedOrganization }) => {
+  const maxYear: number = Math.max(...emissions.map(({ year }) => year));
 
   const [selectedYear, setSelectedYear] = useState(maxYear);
 
-  const reduceYear = (): void => {
-    if (selectedYear !== baseYear) {
-      setSelectedYear(selectedYear - 1);
-    }
-  };
-
-  const increaseYear = (): void => {
-    if (selectedYear !== maxYear) {
-      setSelectedYear(selectedYear + 1);
-    }
-  };
-
   const getYearMonthlySeries = (): ChartSeries => {
-    const targetYearData = allTimeEmissions.find(
-      ({ year }) => year === selectedYear
-    );
+    const targetYearData = emissions.find(({ year }) => year === selectedYear);
 
     if (!targetYearData) {
       return {
@@ -54,6 +39,27 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
       ySeries,
     };
   };
+
+  const reduceYear = (): void => {
+    if (selectedYear !== baseYear) {
+      setSelectedYear(selectedYear - 1);
+    }
+  };
+
+  const increaseYear = (): void => {
+    if (selectedYear !== maxYear) {
+      setSelectedYear(selectedYear + 1);
+    }
+  };
+
+  if (emissions.length === 0) {
+    return (
+      <Alert
+        message="Please select an organization with emission records!"
+        type="info"
+      />
+    );
+  }
 
   const monthSeries = getYearMonthlySeries();
 
@@ -82,9 +88,9 @@ export const MonthEmissionsChart: React.FC<MonthEmissionsChartProps> = ({
       </section>
       <section>
         {monthSeries.categories.length > 0 && (
-          <Chart
+          <ChartBase
             series={monthSeries}
-            title={`${organizationName} monthly emissions in ${selectedYear}`}
+            title={`${selectedOrganization} monthly emissions in ${selectedYear}`}
             xAxisTitle="Month"
             yAxisTitle="Emissions"
             yUnits="tCO₂e"

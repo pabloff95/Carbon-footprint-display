@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { OrganizationSelector } from './OrganizationSelector';
-import { OrganizationEmissionsChart } from './OrganizationEmissionsChart';
 import { TimeResolutionFilter, timeResolution } from './TimeResolutionFilter';
 import { Spin, Typography } from 'antd';
+import { OrganizationEmissions } from './OrganizationEmissions';
 
 export const Dashboard: React.FC = () => {
   const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
@@ -18,7 +18,7 @@ export const Dashboard: React.FC = () => {
   return (
     <main className="h-full w-full flex flex-col gap-4 items-center justify-center bg-slate-200">
       <Typography.Title level={2} className="!mb-8">
-        Emissions dashboard
+        Organization emissions
       </Typography.Title>
       <OrganizationSelector
         setSelectedOrganization={setSelectedOrganization}
@@ -32,13 +32,11 @@ export const Dashboard: React.FC = () => {
           disableButtons={!selectedOrganization}
         />
       )}
-      {!!selectedOrganization && (
-        <OrganizationEmissionsChart
-          selectedOrganization={selectedOrganization}
-          selectedTimeResolution={selectedTimeResolution}
-          setIsDataLoading={setIsDataLoading}
-        />
-      )}
+      <OrganizationEmissions
+        selectedOrganization={selectedOrganization}
+        selectedTimeResolution={selectedTimeResolution}
+        setIsDataLoading={setIsDataLoading}
+      />
       {isDataLoading && (
         <div className="flex flex-col gap-2">
           <Spin size="large"></Spin>
