@@ -4,7 +4,6 @@ import { EmissionsData } from '../../../../lib/src/index';
 import Chart, { ChartSeries } from '../Base/Chart';
 import { timeResolution } from './TimeResolutionFilter';
 import { MonthEmissionsChart } from './MonthEmissionsChart';
-import { LoadingSpinner } from '../Base/LoadingSpinner';
 import { Alert } from 'antd';
 
 interface OrganizationEmissionsChartProps {
@@ -41,7 +40,7 @@ export const OrganizationEmissionsChart: React.FC<
   };
 
   if (areEmissionsLoading) {
-    return <LoadingSpinner spinnerHeight="56" />;
+    return <></>;
   }
 
   if (emissions.length === 0) {

@@ -2,9 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import config from '../config';
 import { ReportsModule } from './reports/reports.module';
-import { PingController } from './ping.controller';
-import { OrganizationsController } from './organization.controller';
-import { OrganizationService } from '../services/organization';
+import { OrganizationsController } from './organizations/organization.controller';
+import { OrganizationService } from './organizations/organization.service';
 
 @Module({
   imports: [
@@ -15,7 +14,7 @@ import { OrganizationService } from '../services/organization';
       load: [config],
     }),
   ],
-  controllers: [PingController, OrganizationsController],
+  controllers: [OrganizationsController],
   providers: [OrganizationService],
 })
 export class APIModule {}

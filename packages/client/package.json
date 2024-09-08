@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.tsx",
   "author": "Cozero",
+  "private": true,
   "scripts": {
     "start:dev": "vite",
     "build": "vite build",

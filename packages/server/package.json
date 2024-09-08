@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "author": "Cozero",
   "main": "src/main.ts",
+  "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

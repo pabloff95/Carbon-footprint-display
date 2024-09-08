@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { OrganizationSelector } from './OrganizationSelector';
 import { OrganizationEmissionsChart } from './OrganizationEmissionsChart';
 import { TimeResolutionFilter, timeResolution } from './TimeResolutionFilter';
-import { Alert, Typography } from 'antd';
+import { Spin, Typography } from 'antd';
 
 export const Dashboard: React.FC = () => {
   const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
@@ -39,7 +39,12 @@ export const Dashboard: React.FC = () => {
           setIsDataLoading={setIsDataLoading}
         />
       )}
-      {isDataLoading && <Alert type="info" message="Loading data..." banner />}
+      {isDataLoading && (
+        <div className="flex flex-col gap-2">
+          <Spin size="large"></Spin>
+          <span className="text-gray-800 opacity-80">Loading data...</span>
+        </div>
+      )}
     </main>
   );
 };
