@@ -15,11 +15,12 @@ export class OrganizationService {
       const uniqueOrganizationNames: { name: string }[] = await this.prisma
         .$queryRaw`
           SELECT DISTINCT organization_name AS name
-          FROM metrics
-          WHERE organization_name IS NOT NULL AND organization_name != ''
+          FROM metrics          
         `;
 
-      return uniqueOrganizationNames.map(organization => organization.name);
+      return uniqueOrganizationNames
+        .map(organization => organization.name)
+        .filter(organizationName => !!organizationName);
     } catch (error) {
       console.error('Error while fetching the organization names:', error);
       throw error;
@@ -37,15 +38,14 @@ export class OrganizationService {
       // This query summarizes all the monthly emissions in the received year of the target organization
       const organizationEmissions: { month: number; emissions: number }[] =
         await this.prisma.$queryRaw`
-        SELECT
+         SELECT
           EXTRACT(MONTH FROM reported_at) AS month,
           SUM(emissions) AS emissions
         FROM metrics
         WHERE organization_name = ${organizationName}
-        AND reported_at BETWEEN ${new Date(`${year}-01-01`)} AND ${new Date(
-          `${year}-12-31`
-        )}
-        GROUP BY EXTRACT(MONTH FROM reported_at)
+        AND reported_at >= ${new Date(`${year}-01-01`)}
+        AND reported_at <= ${new Date(`${year}-12-31`)}
+        GROUP BY month
       `;
 
       return { year, monthsData: organizationEmissions };

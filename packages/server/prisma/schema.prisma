@@ -13,5 +13,8 @@ model Metric {
   emissions        Float?    @map("emissions")
   id               Int       @id @default(autoincrement())
 
+  @@index([organizationName], name: "index_metrics_organization_name")
+  @@index([organizationName, reportedAt], name: "index_metrics_organization_name_reported_at")
+  
   @@map(name: "metrics")
 }

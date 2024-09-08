@@ -3,6 +3,6 @@ type EmissionsData = {
   monthsData: { month: number; emissions: number }[];
 };
 
-const baseYear: number = 2000;
+const baseYear = 2000;
 
 export { EmissionsData, baseYear };
