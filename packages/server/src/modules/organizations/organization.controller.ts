@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { OrganizationService } from './organization.service';
-import { EmissionsData, baseYear } from '../../../../lib/src/index';
+import { EmissionsData, baseYear } from '@cozero/lib/src/index';
 
 @Controller('organizations')
 export class OrganizationsController {

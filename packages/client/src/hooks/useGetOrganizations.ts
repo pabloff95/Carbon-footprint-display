@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '../utils';
+import { getApiUrl } from '@cozero/client/src/utils/index';
 
 interface UseOrganizationsResult {
   organizations: string[];

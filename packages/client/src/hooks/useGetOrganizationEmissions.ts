@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '../utils';
-import { EmissionsData } from '../../../lib/src/index';
+import { getApiUrl } from '@cozero/client/src/utils/index';
+import { EmissionsData } from '@cozero/lib/src/index';
 
 interface UseOrganizationsEmisionsResult {
   emissions: EmissionsData[];
