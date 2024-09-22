@@ -1,7 +1,6 @@
 {
-  "name": "@cozero/lib",
+  "name": "@carbonfootprintdisplay/lib",
   "version": "1.0.0",
-  "author": "Cozero",
   "main": "dist/index.js",
   "private": true,
   "scripts": {

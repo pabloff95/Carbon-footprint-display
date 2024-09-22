@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '@cozero/client/src/utils/index';
-import { EmissionsData } from '@cozero/lib/src/index';
+import { getApiUrl } from '@carbonfootprintdisplay/client/src/utils/index';
+import { EmissionsData } from '@carbonfootprintdisplay/lib/src/index';
 
 interface UseOrganizationsEmisionsResult {
   emissions: EmissionsData[];

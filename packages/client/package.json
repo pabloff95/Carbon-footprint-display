@@ -1,8 +1,7 @@
 {
-  "name": "@cozero/client",
+  "name": "@carbonfootprintdisplay/client",
   "version": "1.0.0",
   "main": "src/index.tsx",
-  "author": "Cozero",
   "private": true,
   "scripts": {
     "start:dev": "vite",
@@ -13,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@cozero/lib": "^1.0.0",
+    "@carbonfootprintdisplay/lib": "^1.0.0",
     "antd": "^5.6.4",
     "debug": "^4.3.4",
     "highcharts": "^11.4.8",
@@ -25,7 +24,7 @@
     "vite-plugin-imp": "^2.4.0"
   },
   "peerDependencies": {
-    "@cozero/server": "1.0.0"
+    "@carbonfootprintdisplay/server": "1.0.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",

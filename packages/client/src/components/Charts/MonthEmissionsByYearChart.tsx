@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { EmissionsData, baseYear } from '@cozero/lib/src';
+import { EmissionsData, baseYear } from '@carbonfootprintdisplay/lib/src';
 import { ChartBase, ChartSeries } from './ChartBase';
-import { months } from '@cozero/client/src/utils/index';
+import { months } from '@carbonfootprintdisplay/client/src/utils/index';
 import { Alert, Button } from 'antd';
 
 interface MonthEmissionsByYearChartProps {

@@ -1,6 +1,6 @@
 import debug from 'debug';
 
-const LOGGER_PREFIX = 'cozero';
+const LOGGER_PREFIX = 'carbonfootprintdisplay';
 
 const debugInfo = debug(`${LOGGER_PREFIX}:info`);
 debugInfo.enabled = true;

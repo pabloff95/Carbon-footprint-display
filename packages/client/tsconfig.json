@@ -11,7 +11,7 @@
     "module": "ESNext",
     "noEmit": true,
     "paths": {
-      "~/*": ["src/*"]
+      "@carbonfootprintdisplay/*": ["src/*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": false,

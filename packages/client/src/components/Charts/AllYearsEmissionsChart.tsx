@@ -1,5 +1,5 @@
 import React from 'react';
-import { EmissionsData } from '@cozero/lib/src';
+import { EmissionsData } from '@carbonfootprintdisplay/lib/src';
 import { ChartBase, ChartSeries } from './ChartBase';
 import { Alert } from 'antd';
 

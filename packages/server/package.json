@@ -1,7 +1,6 @@
 {
-  "name": "@cozero/server",
+  "name": "@carbonfootprintdisplay/server",
   "version": "1.0.0",
-  "author": "Cozero",
   "main": "src/main.ts",
   "private": true,
   "scripts": {
@@ -21,7 +20,7 @@
     "db:migrate": "prisma migrate dev"
   },
   "dependencies": {
-    "@cozero/lib": "^1.0.0",
+    "@carbonfootprintdisplay/lib": "^1.0.0",
     "@nestjs/common": "^9.0.11",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^9.0.11",

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { EmissionsData } from '@cozero/lib/src/index';
+import { EmissionsData } from '@carbonfootprintdisplay/lib/src/index';
 
 @Injectable()
 export class OrganizationService {

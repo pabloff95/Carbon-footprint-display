@@ -11,7 +11,7 @@ module.exports = {
     '^react(.*)$',
     '^antd(.*)$',
     '<THIRD_PARTY_MODULES>',
-    '^@cozero/(.*)$',
+    '^@carbonfootprintdisplay/(.*)$',
     '^@/templates(.*)$',
     '^@/pages(.*)$',
     '^@/organisms(.*)$',

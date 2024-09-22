@@ -1,7 +1,6 @@
 {
-  "name": "cozero",
+  "name": "carbonfootprintdisplay",
   "version": "1.0.0",
-  "author": "Cozero",
   "directories": {
     "doc": "docs"
   },
@@ -16,7 +15,7 @@
   ],
   "scripts": {
     "bootstrap": "yarn install && yarn run build:common && cd ./packages/server; npx prisma generate",
-    "build:lib": "yarn workspace @cozero/lib build",
+    "build:lib": "yarn workspace @carbonfootprintdisplay/lib build",
     "build:common": "yarn build:lib",
     "lint": "yarn workspaces run lint",
     "prisma-studio": "npx prisma studio --schema=./packages/server/prisma/schema.prisma"
